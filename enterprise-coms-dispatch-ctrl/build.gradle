@@ -1,0 +1,317 @@
+/*
+ * Apply plugins by Id or from a file (locally or remotely)
+ */
+apply plugin: 'war'
+apply plugin: 'maven'
+apply plugin: 'groovy'
+apply plugin: 'jacoco'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'jdepend'
+//apply plugin: 'checkstyle'
+//apply plugin: 'findbugs'
+//apply plugin: 'pmd'
+//apply plugin: 'sonar-runner'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.springframework.boot'
+//apply plugin: 'com.bmuschko.docker-java-application'
+apply plugin: 'com.bmuschko.docker-remote-api'
+
+/*
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.4'
+}
+*/
+defaultTasks 'clean', 'test', 'distDocker'
+
+group = "com.heb.enterprisecoms.dispatchctrl"
+description = "enterprise-coms-dispatch-ctrl with Docker"
+archivesBaseName = 'enterprise-coms-dispatch-ctrl'
+
+buildscript {
+    ext {
+        snapshotVersion = false
+
+        groovyVersion = '2.3.8'
+        springSecurityVersion = '3.2.5.RELEASE'
+        springVersion = '4.3.7.RELEASE'
+        springIntVersion = '4.3.8.RELEASE'
+        springBootVersion = '1.5.2.RELEASE'
+        springLoadedVersion = '1.2.5.RELEASE'
+        springDataJpaVersion = '1.11.0.RELEASE'
+        hibernateVersion = '4.3.7.Final'
+    }
+	repositories {
+	mavenLocal()
+    maven {
+          url "http://drcapl0029903.heb.com:8081/nexus/content/groups/public/"
+		}
+		 mavenCentral()
+        // needed for docker plugin
+        jcenter()
+	}
+
+	/*
+    repositories {
+        mavenLocal()
+        maven {
+            name "HEB Nexus"
+            // todo this should point to nexus.heb.com but some jar files aren't uploaded there like the jdbc stuff
+            url "http://nexus.heb.com:8081/nexus/content/repositories/central/"
+        }
+        mavenCentral()
+        // needed for docker plugin
+        jcenter()
+    }
+    */
+	
+	/*
+    sonarRunner {
+    // for each of the properties check if they are set at the root level of the project
+    sonarProperties {
+        property "sonar.host.url", "http://cadapl0030701.heb.com:9000"
+        property "sonar.jdbc.url", "jdbc:mysql://DRTDBL0030701.heb.com:3306/ccrmet01"
+        property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
+        property "sonar.jdbc.username", "crmet_user"
+        property "sonar.jdbc.password", "crmet"
+    }
+}
+*/
+
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+        // allows for hot swapping java classes when compiled while spring boot is running
+        // additional customization is required when running intellij
+        classpath "org.springframework:springloaded:$springLoadedVersion"
+        // allows for creation of the Docker image through gradle
+        classpath "com.bmuschko:gradle-docker-plugin:3.0.6"
+        // allows for externalizing the configuration of spring
+        classpath "io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE"
+    }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-config:1.0.2.RELEASE'
+    }
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        name "HEB Nexus"
+        // todo this should point to nexus.heb.com but some jar files aren't uploaded there like the jdbc stuff
+        url "http://drcapl0029903.heb.com:8081/nexus/content/groups/JAF"
+    }
+    mavenCentral()
+}
+
+dependencies {
+
+
+    // specify version for groovy with groovy plugin
+    testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"
+
+    // JDBC Drivers - Uncomment which ever ones apply to your app
+    // compile "mysql:mysql-connector-java:5.1.34"
+    // compile "com.oracle:ojdbc6:11.2.0.2"
+    compile "com.microsoft.sqlserver.jdbc:sqljdbc4:3.0"
+    compile "com.h2database:h2"
+
+    // DB Connection pooling and hibernate entity manager
+    compile "com.zaxxer:HikariCP:2.4.0"
+    compile "org.hibernate:hibernate-hikaricp:$hibernateVersion"
+    compile "org.hibernate:hibernate-entitymanager:$hibernateVersion"
+    compile "org.springframework.data:spring-data-jpa:$springDataJpaVersion"
+
+    // Spring Container Core Libs
+    compile "org.springframework:spring-core:$springVersion"
+    compile "org.springframework:spring-context:$springVersion"
+    compile "org.springframework:spring-beans:$springVersion"
+    compile "org.springframework:spring-jms:$springVersion"
+    compile "org.springframework:spring-jdbc:$springVersion"
+    compile "org.springframework:spring-orm:$springVersion"
+    compile "org.springframework:spring-tx:$springVersion"
+    //COMS additional Core Libs
+    compile "org.springframework:spring-expression:${springVersion}"
+    
+
+    // Spring Boot
+    compile "org.springframework.boot:spring-boot-starter:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-remote-shell:$springBootVersion"
+
+	//COMS Additional web Container Libs
+	compile "org.springframework:spring-web:${springVersion}"
+    // Web Container Libs
+    compile "org.springframework:spring-webmvc:$springVersion"
+    compile "org.codehaus.jackson:jackson-core-lgpl:1.9.11"
+    compile "org.codehaus.jackson:jackson-mapper-lgpl:1.9.11"
+
+    // Utility dependencies
+    // HTML parsing
+    compile "org.jsoup:jsoup:1.7.2"
+    compile "org.springframework.cloud:spring-cloud-starter-config"
+
+    // Support for bean validation
+    compile "javax.validation:validation-api:1.1.0.Final"
+    compile "org.hibernate:hibernate-validator:5.1.3.Final"
+
+    //Security
+    compile "org.springframework.security:spring-security-core:$springSecurityVersion"
+    compile "org.springframework.security:spring-security-config:$springSecurityVersion"
+    compile "org.springframework.security:spring-security-web:$springSecurityVersion"
+    compile "org.springframework.security:spring-security-ldap:$springSecurityVersion"
+    compile "org.springframework.security:spring-security-taglibs:$springSecurityVersion"
+
+    //Spring Integration Libs - Include these to enable spring integration
+    
+    compile "org.springframework.integration:spring-integration-core:$springIntVersion"
+    compile "org.springframework.integration:spring-integration-jms:$springIntVersion"
+    compile "org.springframework.integration:spring-integration-stream:$springIntVersion"
+    compile "org.springframework.integration:spring-integration-jdbc:$springIntVersion"
+    compile "org.springframework.boot:spring-boot-starter-integration:$springBootVersion"
+    
+    //Miscellaneous jars for COMS
+    compile"org.slf4j:slf4j-log4j12:1.6.3"
+	compile "com.oracle:ojdbc6:11.2.0.2"
+	compile "com.heb.fresh.service:iccemsclient:0.0.2"
+	compile "junit:junit:4.10"
+	compile "org.easymock:easymock:3.1"
+	compile "com.jolbox:bonecp:0.8.0.RELEASE"
+	compile "net.logstash.log4j:jsonevent-layout:1.6"
+
+    //JMS - Uncomment if you are connecting to TIBCO EMS
+    /*
+    //Used as a client for ActiveMQ and RabbitMQ, replace with EMS for tibco
+    compile "org.springframework.boot:spring-boot-starter-amqp:$springBootVersion"
+    compile("org.apache.activemq:activemq-core:5.7.0"){
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    }
+    compile "tibco:tibjms:4.3.0"
+    */
+
+    //Spring GemFire Caching
+    //compile "org.springframework.data:spring-data-gemfire:1.2.2.RELEASE"
+    //provided "com.gemstone.gemfire:gemfire:7"
+
+    /* ClamAV */
+    //compile "com.heb.clamav:clamav:0.0.1"
+
+    /* Testing tools */
+    testCompile "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
+    testCompile "org.powermock:powermock-module-junit4:1.4.10"
+    testCompile "org.powermock:powermock-api-mockito:1.4.10"
+    testCompile "org.easymock:easymock:3.1"
+    testCompile "org.powermock:powermock-api-easymock:1.4.10"
+    testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
+    testCompile "org.spockframework:spock-spring:0.7-groovy-2.0"
+}
+
+/*
+ * Additional customization to the build
+ */
+
+/*
+ * Re-generate the gradlew scripts.
+ * You should always be using gradlew instead of gradle. Look up the Gradle wrapper in the docs for more info.
+ */
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.4'
+}
+
+/*
+docker {
+    javaApplication {
+        maintainer = "Bimal Nanda <nanda.bimal@heb.com>"
+        baseImage = "errordeveloper/oracle-jdk"
+    }
+}
+*/
+
+/*
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+task createDockerfile(type: Dockerfile) {
+    // rename to app.jar
+    addFile "${jar.baseName}.${jar.extension}", "app.jar"
+    entryPoint "java", "-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=local", "-jar", "app.jar"
+}
+*/
+
+/*
+ * As of v2.5.2, the plugin has an issue tagging the image
+ * @see https://github.com/bmuschko/gradle-docker-plugin/issues/41
+ */
+/*
+dockerPushImage {
+    imageName = "${project.group}/${jar.baseName}"
+}
+*/
+//Added to test
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
+import com.bmuschko.gradle.docker.tasks.image.DockerTagImage
+//providedCompile "javax.servlet:javax.servlet-api:3.1.0"
+task copyJar(type: Copy) {
+    dependsOn   'jar'
+    from        "build/libs/elasticsearch-mesos-scheduler-${project.version}.jar"
+    into        'build/docker'
+    rename { String fileName ->
+        fileName.replace("-${project.version}", "")
+    }
+}
+//Added to test
+task buildDockerImage(type: DockerBuildImage) {
+    dependsOn   copyJar
+    if (System.env.DOCKER_HOST) {
+        url = "$System.env.DOCKER_HOST".replace("tcp","https")
+        if (System.env.DOCKER_CERT_PATH) {
+            certPath = new File(System.env.DOCKER_CERT_PATH)
+
+        }
+    }
+    else {
+        url = 'unix:///var/run/docker.sock'
+    }
+    inputDir = file('.')
+    tag = '${project.group}/${jar.baseName}'
+}
+
+bootRun {
+    systemProperty "spring.profiles.active", "local"
+}
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+jdependMain {
+    ext.ignoreFailures = true
+}
+
+/*
+ * sonar task configuration.
+ */
+
+jacocoTestReport {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    additionalSourceDirs = files(sourceSets.main.allJava.srcDirs)
+
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint"
+}

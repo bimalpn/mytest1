@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.heb.enterprise.coms.dispatchcontroller.vo.TransactionHeaderVOTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2017-03-29T18:15:40" hostname="LTUS47790" time="0.012">
+  <properties/>
+  <testcase name="testSetTrxHdrId_1" classname="com.heb.enterprise.coms.dispatchcontroller.vo.TransactionHeaderVOTest" time="0.002"/>
+  <testcase name="testSetSrcSystem_1" classname="com.heb.enterprise.coms.dispatchcontroller.vo.TransactionHeaderVOTest" time="0.001"/>
+  <testcase name="testSetQueueName_1" classname="com.heb.enterprise.coms.dispatchcontroller.vo.TransactionHeaderVOTest" time="0.0"/>
+  <testcase name="testGetTrxHdrId_1" classname="com.heb.enterprise.coms.dispatchcontroller.vo.TransactionHeaderVOTest" time="0.0"/>
+  <testcase name="testGetSrcSystem_1" classname="com.heb.enterprise.coms.dispatchcontroller.vo.TransactionHeaderVOTest" time="0.0"/>
+  <testcase name="testGetQueueName_1" classname="com.heb.enterprise.coms.dispatchcontroller.vo.TransactionHeaderVOTest" time="0.004"/>
+  <testcase name="testTransactionHeaderVO_1" classname="com.heb.enterprise.coms.dispatchcontroller.vo.TransactionHeaderVOTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

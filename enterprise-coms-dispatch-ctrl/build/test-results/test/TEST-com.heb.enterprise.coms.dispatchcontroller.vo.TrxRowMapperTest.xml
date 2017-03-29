@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.heb.enterprise.coms.dispatchcontroller.vo.TrxRowMapperTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-03-29T18:15:40" hostname="LTUS47790" time="0.091">
+  <properties/>
+  <testcase name="testMapRow_1" classname="com.heb.enterprise.coms.dispatchcontroller.vo.TrxRowMapperTest" time="0.091"/>
+  <testcase name="testMapRow_2" classname="com.heb.enterprise.coms.dispatchcontroller.vo.TrxRowMapperTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

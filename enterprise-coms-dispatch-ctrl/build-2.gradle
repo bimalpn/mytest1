@@ -1,0 +1,72 @@
+apply plugin: 'war'
+apply plugin: 'maven'
+apply plugin: "jacoco"
+apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
+apply plugin: "sonar-runner"
+group = 'com.heb.enterprisecoms.dispatchctrl'
+archivesBaseName = 'enterprise-coms-dispatch-ctrl'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.6'
+}
+
+jacoco {
+    toolVersion = "0.6.2.201302030002"
+}
+
+repositories {
+    maven {
+          url "http://drcapl0029903.heb.com:8081/nexus/content/groups/public/"
+    }
+}
+
+//sonar {
+  //  server {
+    //    url = "http://cadapl0030701.heb.com:9000"
+    //}
+    //database {
+      //  url = "jdbc:mysql://drtdbl0030701.heb.com:3306/ccrmet01"
+        //driverClassName = "com.mysql.jdbc.Driver"
+        //username = "crmet_user"
+        //password = "crmet"
+    //}
+    //project {
+      //withProjectProperties { props ->
+        // props["sonar.jacoco.reportPath"] = "$buildDir/jacoco/test.exec"
+      //}
+//   }
+//}
+
+sonarRunner {
+    // for each of the properties check if they are set at the root level of the project
+    sonarProperties {
+        property "sonar.host.url", "http://cadapl0030701.heb.com:9000"
+        property "sonar.jdbc.url", "jdbc:mysql://DRTDBL0030701.heb.com:3306/ccrmet01"
+        property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
+        property "sonar.jdbc.username", "crmet_user"
+        property "sonar.jdbc.password", "crmet"
+    }
+}
+
+def springVersion = '4.0.6.RELEASE'
+def springIntVersion = '4.0.6.RELEASE'
+
+dependencies {
+	compile "org.springframework:spring-beans:${springVersion}"
+	compile "org.springframework:spring-expression:${springVersion}"
+	compile "org.springframework:spring-tx:${springVersion}"
+	compile "org.springframework:spring-web:${springVersion}"
+	compile "org.springframework:spring-webmvc:${springVersion}"
+	compile "org.springframework.integration:spring-integration-core:${springIntVersion}"
+	compile "org.springframework.integration:spring-integration-jdbc:${springIntVersion}"
+	compile "org.springframework.integration:spring-integration-jms:${springIntVersion}"
+	compile"org.slf4j:slf4j-log4j12:1.6.3"
+	compile "com.oracle:ojdbc6:11.2.0.2"
+	compile "com.heb.fresh.service:iccemsclient:0.0.2"
+	compile "junit:junit:4.10"
+	compile "org.easymock:easymock:3.1"
+	compile "com.jolbox:bonecp:0.8.0.RELEASE"
+	compile "net.logstash.log4j:jsonevent-layout:1.6"
+}
+

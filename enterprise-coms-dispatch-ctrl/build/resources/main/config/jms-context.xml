@@ -1,0 +1,67 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:si="http://www.springframework.org/schema/integration"
+	xmlns:si-jms="http://www.springframework.org/schema/integration/jms"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans	
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/jee
+http://www.springframework.org/schema/jee/spring-jee.xsd
+http://www.springframework.org/schema/integration
+http://www.springframework.org/schema/integration/spring-integration.xsd
+http://www.springframework.org/schema/integration/jms
+http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd">
+
+	<!-- JMS Config -->
+	
+	<bean id="tibcoProperties"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>classpath:properties/jms_${spring.profiles.active}.properties</value>
+				<value>classpath:properties/ecom.properties</value>
+			</list>
+		</property>
+	</bean>
+    <!-- JMS CONNECTION BEANS -->
+    
+    <bean id="tibcoJndiTemplate" class="org.springframework.jndi.JndiTemplate">
+    	<property name="environment" ref="tibcoProperties"/>
+    </bean>
+
+	<bean id="tibcoJmsQueueConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiTemplate">
+			<ref bean="tibcoJndiTemplate" />
+		</property>
+		<property name="jndiName">
+			<value>QueueConnectionFactory</value>
+		</property>
+	</bean>
+
+	<bean id="tibcoAuthenticationConnectionFactory"
+		class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+		<property name="targetConnectionFactory" ref="tibcoJmsQueueConnectionFactory" />
+		<property name="username" value="${java.naming.security.principal}" />
+		<property name="password" value="${java.naming.security.credentials}" />
+	</bean>
+
+	<bean id="tibcoInboundSendDestination" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiTemplate">
+			<ref bean="tibcoJndiTemplate" />
+		</property>
+		<property name="jndiName" value="${QUEUE.NAME}">
+
+		</property>
+	</bean>
+
+	<bean id="tibcoInboundJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory">
+			<ref bean="tibcoAuthenticationConnectionFactory" />
+		</property>
+		<property name="defaultDestination">
+			<ref bean="tibcoInboundSendDestination" />
+		</property>
+	</bean>
+</beans> 

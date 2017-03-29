@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="trxRowMapper"
+		class="com.heb.enterprise.coms.dispatchcontroller.vo.TrxRowMapper" />
+		
+		<bean id="queueRowMapper"
+		class="com.heb.enterprise.coms.dispatchcontroller.vo.QueueNameRowMapper" />
+
+	<bean id="dispatchCtrlService"
+		class="com.heb.enterprise.coms.dispatchcontroller.service.DispatcherControllerService" />
+
+	<bean id="parameterSource"
+		class="com.heb.enterprise.coms.dispatchcontroller.util.SQLParameterSource" />
+
+	<bean id="context"
+		class="com.heb.enterprise.coms.dispatchcontroller.util.SpringApplicationContext" />
+
+	<bean id="qNameRefreshService"
+		class="com.heb.enterprise.coms.dispatchcontroller.service.QNameRefreshService">
+		<property name="context" ref="context" />
+	</bean>
+
+</beans>

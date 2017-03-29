@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.heb.enterprise.coms.dispatchcontroller.util.SQLParameterSourceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-03-29T18:15:40" hostname="LTUS47790" time="0.021">
+  <properties/>
+  <testcase name="testGetValue_1" classname="com.heb.enterprise.coms.dispatchcontroller.util.SQLParameterSourceTest" time="0.017"/>
+  <testcase name="testHasValue_1" classname="com.heb.enterprise.coms.dispatchcontroller.util.SQLParameterSourceTest" time="0.001"/>
+  <testcase name="testHasValue_2" classname="com.heb.enterprise.coms.dispatchcontroller.util.SQLParameterSourceTest" time="0.001"/>
+  <testcase name="testSQLParameterSource_1" classname="com.heb.enterprise.coms.dispatchcontroller.util.SQLParameterSourceTest" time="0.001"/>
+  <system-out><![CDATA[Host Name:LTUS47790
+Host Name:LTUS47790
+Host Name:LTUS47790
+Host Name:LTUS47790
+]]></system-out>
+  <system-err><![CDATA[log4j:WARN No appenders could be found for logger (com.heb.enterprise.coms.dispatchcontroller.util.SQLParameterSource).
+log4j:WARN Please initialize the log4j system properly.
+Exception in thread "Thread-5" java.lang.NullPointerException
+	at com.heb.enterprise.coms.dispatchcontroller.util.SpringApplicationContext$1.run(SpringApplicationContext.java:63)
+]]></system-err>
+</testsuite>

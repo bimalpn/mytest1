@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> -->
+	<!-- <property name="jndiName" value="java:comp/env/jdbc/dispatcherDatasource" 
+		/> -->
+	<!-- <property name="lookupOnStartup" value="true" /> -->
+	<!-- <property name="proxyInterface" value="javax.sql.DataSource" /> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" 
+		/> <property name="url" value="jdbc:oracle:thin:@wcx1-scan.heb.com:1521/ccoms1" 
+		/> <property name="username" value="coms_ecom_appl" /> <property name="password" 
+		value="a38749ab" /> </bean> -->
+
+	<!-- <context:property-placeholder location="classpath*:properties/db_${spring.profiles.active}.properties" 
+		/> -->
+
+	<!-- BoneCP Configuration -->
+	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="oracle.jdbc.pool.OracleDataSource" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="idleConnectionTestPeriodInSeconds" value="60" />
+		<property name="idleMaxAgeInSeconds" value="120" />
+		<property name="maxConnectionsPerPartition" value="15" />
+		<property name="minConnectionsPerPartition" value="5" />
+		<property name="partitionCount" value="2" />
+		<property name="acquireIncrement" value="5" />
+		<property name="statementsCacheSize" value="100" />
+		<property name="releaseHelperThreads" value="3" />
+		<property name="closeConnectionWatch" value="false" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+</beans>

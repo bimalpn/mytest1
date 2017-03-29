@@ -1,0 +1,174 @@
+<?xml version="1.0"?>
+<JDepend>
+    <Packages>
+
+        <Package name="com.heb.enterprise.coms.dispatchcontroller.service">
+            <Stats>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>2</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>8</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="DispatcherControllerService.java">
+                    com.heb.enterprise.coms.dispatchcontroller.service.DispatcherControllerService
+                </Class>
+                <Class sourceFile="QNameRefreshService.java">
+                    com.heb.enterprise.coms.dispatchcontroller.service.QNameRefreshService
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>com.heb.enterprise.coms.dispatchcontroller.util</Package>
+                <Package>com.heb.enterprise.coms.dispatchcontroller.vo</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.net</Package>
+                <Package>java.util</Package>
+                <Package>org.slf4j</Package>
+                <Package>org.springframework.messaging</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="com.heb.enterprise.coms.dispatchcontroller.util">
+            <Stats>
+                <TotalClasses>4</TotalClasses>
+                <ConcreteClasses>4</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>6</Ce>
+                <A>0</A>
+                <I>0.86</I>
+                <D>0.14</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="DispatcherCtrlConstansts.java">
+                    com.heb.enterprise.coms.dispatchcontroller.util.DispatcherCtrlConstansts
+                </Class>
+                <Class sourceFile="SQLParameterSource.java">
+                    com.heb.enterprise.coms.dispatchcontroller.util.SQLParameterSource
+                </Class>
+                <Class sourceFile="SpringApplicationContext.java">
+                    com.heb.enterprise.coms.dispatchcontroller.util.SpringApplicationContext
+                </Class>
+                <Class sourceFile="SpringApplicationContext.java">
+                    com.heb.enterprise.coms.dispatchcontroller.util.SpringApplicationContext$1
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.net</Package>
+                <Package>org.slf4j</Package>
+                <Package>org.springframework.context</Package>
+                <Package>org.springframework.jdbc.core.namedparam</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>com.heb.enterprise.coms.dispatchcontroller.service</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="com.heb.enterprise.coms.dispatchcontroller.vo">
+            <Stats>
+                <TotalClasses>3</TotalClasses>
+                <ConcreteClasses>3</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>5</Ce>
+                <A>0</A>
+                <I>0.83</I>
+                <D>0.17</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="QueueNameRowMapper.java">
+                    com.heb.enterprise.coms.dispatchcontroller.vo.QueueNameRowMapper
+                </Class>
+                <Class sourceFile="TransactionHeaderVO.java">
+                    com.heb.enterprise.coms.dispatchcontroller.vo.TransactionHeaderVO
+                </Class>
+                <Class sourceFile="TrxRowMapper.java">
+                    com.heb.enterprise.coms.dispatchcontroller.vo.TrxRowMapper
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.sql</Package>
+                <Package>java.util</Package>
+                <Package>org.springframework.jdbc.core</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>com.heb.enterprise.coms.dispatchcontroller.service</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="java.io">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.lang">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.net">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.sql">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.util">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.slf4j">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.springframework.context">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.springframework.jdbc.core">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.springframework.jdbc.core.namedparam">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.springframework.messaging">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+    </Packages>
+
+    <Cycles>
+    </Cycles>
+</JDepend>
